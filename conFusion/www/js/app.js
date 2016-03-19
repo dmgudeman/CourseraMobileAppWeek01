@@ -36,7 +36,8 @@ angular.module('conFusion', ['ionic', 'conFusion.controllers', 'conFusion.servic
         url: '/home',
         views: {
           'mainContent': {
-            templateUrl: 'templates/home.html'
+            templateUrl: 'templates/home.html',
+            controller: 'IndexController'
           }
         }
       })
