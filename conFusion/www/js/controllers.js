@@ -153,8 +153,8 @@ angular.module('conFusion.controllers', [])
     };
   }])
 
-  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'baseURL', function($scope, $stateParams,
-           menuFactory, baseURL) {
+  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', '$ionicPopover', 'baseURL', function($scope, $stateParams,
+           menuFactory, $ionicPopover, baseURL) {
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
@@ -170,6 +170,35 @@ angular.module('conFusion.controllers', [])
         $scope.message = "Error: "+response.status + " " + response.statusText;
       }
     );
+
+    $ionicPopover.fromTemplateUrl('./templates/dish-details-popover.html', {
+      scope: $scope
+    }).then(function(popover) {
+      $scope.popover = popover;
+    });
+
+    $scope.openPopover = function($event) {
+      $scope.popover.show($event);
+    };
+
+    $scope.closePopover = function() {
+      $scope.popover.hide();
+    };
+
+    //Cleanup the popover when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.popover.remove();
+    });
+
+    // Execute action on hide popover
+    $scope.$on('popover.hidden', function() {
+      // Execute action
+    });
+
+    // Execute action on remove popover
+    $scope.$on('popover.removed', function() {
+      // Execute action
+    });
 
 
   }])
