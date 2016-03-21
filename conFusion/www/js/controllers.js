@@ -9,8 +9,10 @@ angular.module('conFusion.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+    //Login Modal*********************************************************************************
   // Form data for the login modal
   $scope.loginData = {};
+
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -39,6 +41,10 @@ angular.module('conFusion.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
+    //Reservation Modal ***************************************************************************
+
+    $scope.reservation = {};
     // Create the reserve modal that we will use later
     $ionicModal.fromTemplateUrl('templates/reserve.html', {
       scope: $scope
@@ -66,12 +72,46 @@ angular.module('conFusion.controllers', [])
         $scope.closeReserve();
       }, 1000);
     };
-  })
 
+    // AddComment Modal ********************************************************************
+    // Form data for the addComment modal
+    $scope.addCommentData = {};
+
+    // CREATE the addComment modal
+    $ionicModal.fromTemplateUrl('templates/dish-comment.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.addCommentForm = modal;
+    });
+
+    // Triggered in the addComment modal to close it
+    $scope.closeAddComment = function() {
+      $scope.addCommentForm.hide();
+    };
+
+    // Open the addComment modal
+    $scope.addComment = function() {
+      $scope.addCommentForm.show();
+    };
+
+    // Perform the addComment action when the user submits the reserve form
+    $scope.doAddComment = function() {
+     console.log('Doing comment', $scope.addCommentData);
+      // Simulate a addComment delay. Remove this and replace with your addComment
+      // code if using a server system
+      $timeout(function() {
+        $scope.closeAddComment();
+      }, 1000);
+    };
+
+
+  })
+//MenuControllerMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
   .controller('MenuController', ['$scope', 'menuFactory', 'favoriteFactory', 'baseURL', '$ionicListDelegate',
     function($scope, menuFactory, favoriteFactory, baseURL, $ionicListDelegate) {
 
     $scope.baseURL = baseURL;
+      console.log("baseURL = " + baseURL);
     $scope.tab = 1;
     $scope.filtText = '';
     $scope.showDetails = false;
@@ -113,6 +153,7 @@ angular.module('conFusion.controllers', [])
     $scope.toggleDetails = function() {
       $scope.showDetails = !$scope.showDetails;
     };
+
       $scope.addFavorite = function (index) {
         console.log("index is " + index);
         favoriteFactory.addToFavorites(index);
@@ -153,13 +194,15 @@ angular.module('conFusion.controllers', [])
     };
   }])
 
-  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', '$ionicPopover', 'baseURL', function($scope, $stateParams,
-           menuFactory, $ionicPopover, baseURL) {
+
+// DishDetailController DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', '$ionicPopover',
+    'baseURL', '$ionicListDelegate', function($scope, $stateParams,
+           menuFactory, favoriteFactory, $ionicPopover, baseURL, $ionicListDelegate) {
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
     $scope.message="Loading ...";
-
     $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
       .$promise.then(
       function(response){
@@ -200,6 +243,11 @@ angular.module('conFusion.controllers', [])
       // Execute action
     });
 
+    $scope.addFavorite = function (index) {
+      console.log("index is " + index);
+      favoriteFactory.addToFavorites(index);
+      $ionicListDelegate.closeOptionButtons();
+    }
 
   }])
 

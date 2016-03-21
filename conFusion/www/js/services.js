@@ -2,6 +2,8 @@
 
 angular.module('conFusion.services', ['ngResource'])
   .constant("baseURL","http://localhost:3000/")
+
+ //menuFactory*************************************************************************
   .service('menuFactory', ['$resource', 'baseURL', function($resource,baseURL) {
 
     var promotions = [
@@ -17,9 +19,7 @@ angular.module('conFusion.services', ['ngResource'])
     ];
 
     this.getDishes = function(){
-
       return $resource(baseURL+"dishes/:id",null,  {'update':{method:'PUT' }});
-
     };
 
     // implement a function named getPromotion
@@ -32,22 +32,18 @@ angular.module('conFusion.services', ['ngResource'])
   }])
 
   .factory('corporateFactory', ['$resource', 'baseURL', function($resource,baseURL) {
-
-
     return $resource(baseURL+"leadership/:id");
 
   }])
 
   .factory('feedbackFactory', ['$resource', 'baseURL', function($resource,baseURL) {
-
-
     return $resource(baseURL+"feedback/:id");
-
   }])
 
   .factory('favoriteFactory', ['$resource', 'baseURL', function ($resource, baseURL) {
     var favFac = {};
     var favorites = [];
+    console.log("favoriteFactory fired");
 
     favFac.addToFavorites = function (index) {
       for (var i = 0; i < favorites.length; i++) {
