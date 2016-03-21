@@ -196,9 +196,10 @@ angular.module('conFusion.controllers', [])
 
 
 // DishDetailController DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+
   .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', 'favoriteFactory', '$ionicPopover',
-    'baseURL', '$ionicListDelegate', function($scope, $stateParams,
-           menuFactory, favoriteFactory, $ionicPopover, baseURL, $ionicListDelegate) {
+    'baseURL',  function($scope, $stateParams,
+           menuFactory, favoriteFactory, $ionicPopover, baseURL) {
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
@@ -242,11 +243,9 @@ angular.module('conFusion.controllers', [])
     $scope.$on('popover.removed', function() {
       // Execute action
     });
-
     $scope.addFavorite = function (index) {
       console.log("index is " + index);
       favoriteFactory.addToFavorites(index);
-      $ionicListDelegate.closeOptionButtons();
     }
 
   }])
