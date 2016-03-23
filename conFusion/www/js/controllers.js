@@ -1,5 +1,14 @@
+
+
+// angular module called 'confusion.controllers'
 angular.module('conFusion.controllers', [])
 
+  // controller  called AppCtrl.  The $scope is a context that is shared between the controller and the templatea.
+  // Whatever is available in this context is available in the template.  This allows you to refer to the properties
+  // of the context in the template with the use of the  {{property}} syntax.
+
+  // model and controller live in the JavaScript and view lives in the HTML.  The HTML is converted into the DOM and
+  // the angular consumes the DOM.
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -8,6 +17,13 @@ angular.module('conFusion.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+    $scope.openPopup = function() {
+      $ionicPopup.alert({
+        title: 'Hey!',
+        content: 'Don\'t do that!'
+      }).then(function(res) {});
+    };
+
 
     //Login Modal*********************************************************************************
   // Form data for the login modal
@@ -18,6 +34,7 @@ angular.module('conFusion.controllers', [])
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
   }).then(function(modal) {
+     //publish it on the $scope (shared context between controller and template
     $scope.modal = modal;
   });
 
@@ -366,6 +383,40 @@ angular.module('conFusion.controllers', [])
       return out;
 
     }});
+//.controller('PopoverCtrl', function($scope, $ionicActionSheet, $ionicPopup) {
+//  $scope.hidePopover = function() {
+//    $scope.popover.hide();
+//  });
+ /* $scope.openActionSheet = function() {
+    $ionicActionSheet.show({
+      // The various non-destructive button choices
+      buttons: [
+        { text: 'Share' },
+        { text: 'Move' },
+      ],
+      // The text of the red destructive button
+      destructiveText: 'Delete',
+      // The title text at the top
+      titleText: 'Modify your album',
+      // The text of the cancel button
+      cancelText: 'Cancel',
+      // Called when the sheet is cancelled, either from triggering the
+      // cancel button, or tapping the backdrop, or using escape on the keyboard
+      cancel: function() {
+      },
+      // Called when one of the non-destructive buttons is clicked, with
+      // the index of the button that was clicked. Return
+      // "true" to tell the action sheet to close. Return false to not close.
+      buttonClicked: function(index) {
+        return true;
+      },
+      // Called when the destructive button is clicked. Return true to close the
+      // action sheet. False to keep it open
+      destructiveButtonClicked: function() {
+        return true;
+      }
+    });
+  };*/
 
 
-;
+
